@@ -11,6 +11,7 @@ import { ChainApi } from "@defillama/sdk";
 import { getCache, setCache } from "../../../utils/cache";
 import { PromisePool } from "@supercharge/promise-pool";
 import * as sdk from '@defillama/sdk'
+import { call } from "@defillama/sdk/build/abi";
 
 const nullAddress = "0x0000000000000000000000000000000000000000"
 
@@ -265,16 +266,29 @@ async function unknownPools2(api: ChainApi, timestamp: number, poolList: any, re
     // set total supplies
     const tryLps = rPoolList.map((p: any) => cPoolInfo[p]?.lpToken)
     tryLps.map((l: any, i: number) => l == null || l == undefined ? filteredIndicies.push(i) : lps.push(l))
-    const supplies = await api.multiCall({ calls: lps, abi: 'erc20:totalSupply', permitFailure: true })
+    const errors: number[] = []
+    const a = (await PromisePool.withConcurrency(5).for(lps).process(
+      async (target: string, i: number) => call({target, abi: 'erc20:totalSupply' }
+    ).catch(() => {
+      errors.push(i)
+      console.log(target)
+    })))
+    const supplies1 = a.results.map((t: any) => ('output' in t ? t.output : null))
+    const rPoolList2 = rPoolList.filter((s: any, i: number) => {
+      return !(errors.includes(i) || s == null)
+    })
+    const supplies = supplies1.filter((t: any) => t != null)
+
+    // const supplies = await api.multiCall({ calls: lps.slice(0, 5), abi: 'erc20:totalSupply', permitFailure: true })
 
     // filter pools with no token 
     let filteredOut = 0
     const filteredRPoolList: string[] = []
-    rPoolList.map((p: any, i: number) => 
+    rPoolList2.map((p: any, i: number) => 
       filteredIndicies.includes(i) ? filteredOut++ : filteredRPoolList.push(p)
       )
     // filter out pools with no supplies
-    const filteredData: any[] = []
+    let filteredData: any[] = []
     filteredRPoolList.forEach((pool: any, i: number) => {
       const poolData = { ...cPoolInfo[pool] }
 
@@ -438,7 +452,7 @@ async function unknownPools2(api: ChainApi, timestamp: number, poolList: any, re
   }
 
   async function getPoolBalances(api: ChainApi, filteredData: any, registry: string, registryType: string) {
-    const pools = filteredData.map((p: any) => p.pool)
+    const pools: string[] = filteredData.map((p: any) => p.pool)
     if (registryType === 'pcs' || registryType === 'custom') {
       const calls: any = []
       filteredData.forEach((p: any) => {
@@ -456,7 +470,22 @@ async function unknownPools2(api: ChainApi, timestamp: number, poolList: any, re
     let mabi = abi.get_balances[registryType] ?? abi.get_balances.crypto
     if (api.chain === 'polygon' && registryType === 'cryptoFactory') mabi = "function get_balances(address _pool) external view returns (uint256[2])"
     if (api.chain === 'bsc' && registryType === 'stableswap') mabi = "function get_balances(address _pool) external view returns (uint256[4])"
-    const poolBalancesAll = await api.multiCall({ target: registry, calls: pools, abi: mabi, requery: true })
+    // const poolBalancesAll = await api.multiCall({ target: registry, calls: pools.slice(0,5), abi: mabi, requery: true })
+    const errors: number[] = []
+    const a = (await PromisePool.withConcurrency(5).for(pools).process(
+      async (pool: string, i: number) => call({target: registry, params: pool, abi: mabi }
+    ).catch(() => {
+      errors.push(i)
+      console.log(pool)
+    })))
+
+    // not in order, look at index 11 
+    const poolBalancesAll1 = a.results.map((t: any) => ('output' in t ? t.output : null))
+    filteredData = filteredData.filter((s: any, i: number) => {
+      return !(errors.includes(i) || s == null)
+    })
+    const poolBalancesAll = poolBalancesAll1.filter((t: any) => t != null)
+
     filteredData.forEach((poolData: any, i: number) => {
       poolData.balances = poolBalancesAll[i].slice(0, poolData.tokens.length)
     })
