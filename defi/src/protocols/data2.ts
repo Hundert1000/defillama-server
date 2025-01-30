@@ -11022,7 +11022,7 @@ const data2: Protocol[] = [
     cmcId: "20734",
     category: "Lending",
     chains: ["Moonbeam"],
-    oracles: ["Chainlink"],
+    oracles: ["Chainlink", "RedStone"], //https://x.com/redstone_defi/status/1884642457243247072, https://moonwell.fi/governance/proposal/moonbeam?id=158
     forkedFrom: ["Compound V2"],
     module: "moonwell/index.js",
     twitter: "MoonwellDeFi",
