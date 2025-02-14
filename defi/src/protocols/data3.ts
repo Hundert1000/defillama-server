@@ -32638,7 +32638,7 @@ const data3: Protocol[] = [
     cmcId: null,
     category: "Lending",
     chains: ["Binance"],
-    oracles: ["Chainlink"],
+    oracles: ["RedStone"], //https://docs.ambit.finance/borrowing/oracles
     forkedFrom: [],
     module: "ambit-finance/index.js",
     twitter: "ambitfinance",
@@ -33979,9 +33979,9 @@ const data3: Protocol[] = [
     address: null,
     symbol: "-",
     assetToken: "brETH",
-    url: "https://bakerfi.ai",
+    url: "https://bakerfi.xyz",
     description:
-      "Skip the DeFi complexity with BakerFi's intelligent AI agents that work 24/7 to maximize your crypto portfolio returns while maintaining security and minimizing risks.",
+      "BakerFi is an innovative DeFi protocol designed to optimize asset growth through efficient staking, re-staking, and recursive strategies, all aimed at enhancing the APY for users. Our platform automates these strategies, streamlining capital allocation, and offers a user-friendly interface accessible to all levels of expertise. Whether you're a novice or seasoned investor, BakerFi provides a seamless experience to maximize your returns.",
     chain: "Arbitrum",
     logo: `${baseIconsUrl}/bakerfi.jpg`,
     audits: "0",
@@ -33989,7 +33989,7 @@ const data3: Protocol[] = [
     gecko_id: null,
     cmcId: null,
     category: "Liquid Staking",
-    chains: ["Arbitrum", "Base", "Ethereum"],
+    chains: ["Arbitrum", "Base"],
     module: "bakerfi/index.js",
     twitter: "bakerfi_",
     forkedFrom: [],
@@ -57589,7 +57589,7 @@ const data3: Protocol[] = [
     module: "hyperdrive/index.js",
     twitter: "HyperVueFDN",
     forkedFrom: [],
-    oracles: [],
+    oracles: ["RedStone"],
     parentProtocol: "parent#delv",
     audit_links: ["https://github.com/delvtech/hyperdrive/tree/main/audits"],
     listedAt: 1728467936
@@ -57841,7 +57841,7 @@ const data3: Protocol[] = [
     module: "superlend/index.js",
     twitter: "SuperlendHQ",
     forkedFrom: ["AAVE V3"],
-    oracles: ["Pyth"],
+    oracles: ["Pyth", "RedStone"], //https://docs.superlend.xyz/superlend-features/oracle
     listedAt: 1728536649
   },
   {
@@ -64936,7 +64936,7 @@ const data3: Protocol[] = [
     cmcId: null,
     category: "CDP",
     chains: ["Arbitrum"],
-    oracles: ["Pyth","Chainlink"],  // https://docs.tren.finance/protocol/asset-risk/oracle-risk
+    oracles: ["Pyth","Chainlink", "RedStone"],  // https://docs.tren.finance/protocol/asset-risk/oracle-risk, https://docs.tren.finance/protocol/isolated-modules#redstone-oracles
     forkedFrom: [],
     module: "tren-finance/index.js",
     twitter: "TrenFinance",
