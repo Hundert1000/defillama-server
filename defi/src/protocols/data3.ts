@@ -29717,6 +29717,16 @@ const data3_1: Protocol[] = [
         type: "Primary",
         proof: ["https://github.com/DefiLlama/defillama-server/pull/9498/files"],
         chains: [{chain: "base"}]
+
+        name: "RedStone",
+        type: "Primary",
+        proof: ["https://app.morpho.org/base/market/0x8793cf302b8ffd655ab97bd1c695dbd967807e8367a65cb2f4edaf1380ba1bda/weth-usdc"],
+        chains: [{chain: "Unichain"}]
+
+         name: "RedStone",
+        type: "Primary",
+        proof: ["https://app.morpho.org/base/market/0x8793cf302b8ffd655ab97bd1c695dbd967807e8367a65cb2f4edaf1380ba1bda/weth-usdc"],
+        chains: [{chain: "Hyperliquid L1"}]
       },
     ],
     forkedFrom: [],
