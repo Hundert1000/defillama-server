@@ -11413,13 +11413,13 @@ const data4: Protocol[] = [
     oraclesBreakdown: [
       {
         name: "Atlas",
-        type: "Primary",
+        type: "Fallback",
         proof: ["https://docs.bsc.lista.org/for-developer/multi-oracle"],
         startDate: "2026-06-02",
       },
       {
         name: "Chainlink",
-        type: "Primary",
+        type: "Fallback",
         proof: ["https://docs.bsc.lista.org/for-developer/multi-oracle"],
       },
       {
@@ -11429,7 +11429,7 @@ const data4: Protocol[] = [
       },
       {
         name: "RedStone",
-        type: "Fallback",
+        type: "Primary",
         proof: ["https://docs.bsc.lista.org/for-developer/multi-oracle"],
       },
     ],
